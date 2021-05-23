@@ -21,7 +21,7 @@ import "./ITellerNFT.sol";
  *
  * @author develop@teller.finance
  */
-contract TellerNFTDictionary is ITellerNFT  {
+contract TellerNFTDictionary is ITellerNFT,ERC721Upgradeable, AccessControlUpgradeable  {
     using Counters for Counters.Counter;
     using EnumerableSet for EnumerableSet.UintSet;
     using SafeMath for uint256;
