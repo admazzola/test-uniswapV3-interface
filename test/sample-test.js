@@ -1,5 +1,6 @@
 const { expect } = require("chai");
 
+/*
 describe("Greeter", function() {
   it("Should return the new greeting once it's changed", async function() {
     const Greeter = await ethers.getContractFactory("Greeter");
@@ -10,5 +11,20 @@ describe("Greeter", function() {
 
     await greeter.setGreeting("Hola, mundo!");
     expect(await greeter.greet()).to.equal("Hola, mundo!");
+  });
+});
+
+*/
+
+describe("TellerNFTDictionary", function() {
+  it("Should add tier information", async function() {
+    const Dictionary = await ethers.getContractFactory("TellerNFTDictionary");
+    const dictionary = await Dictionary.deploy( );
+    
+    await dictionary.deployed();
+  /*  expect(await greeter.greet()).to.equal("Hello, world!");
+
+    await greeter.setGreeting("Hola, mundo!");
+    expect(await greeter.greet()).to.equal("Hola, mundo!");*/
   });
 });
