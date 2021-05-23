@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
-pragma experimental ABIEncoderV2;
+//pragma experimental ABIEncoderV2;
 
 // Contracts
 import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
@@ -21,7 +21,7 @@ import "./ITellerNFT.sol";
  *
  * @author develop@teller.finance
  */
-contract TellerNFTDictionary is ITellerNFT,ERC721Upgradeable, AccessControlUpgradeable  {
+contract TellerNFTDictionary is ITellerNFT, ERC721Upgradeable, AccessControlUpgradeable  {
     using Counters for Counters.Counter;
     using EnumerableSet for EnumerableSet.UintSet;
     using SafeMath for uint256;
@@ -30,6 +30,9 @@ contract TellerNFTDictionary is ITellerNFT,ERC721Upgradeable, AccessControlUpgra
 
     bytes32 public constant ADMIN = keccak256("ADMIN");
     bytes32 public constant MINTER = keccak256("MINTER");
+
+    //The address of the deployed Teller NFT V1 
+    address public tellerNFTAddress; 
 
     /* State Variables */
 
@@ -46,7 +49,7 @@ contract TellerNFTDictionary is ITellerNFT,ERC721Upgradeable, AccessControlUpgra
     mapping(uint256 => uint256) internal _tokenTier;
 
     // It holds a set of token IDs for an owner address.
-    mapping(address => EnumerableSet.UintSet) internal _ownerTokenIDs;
+    //mapping(address => EnumerableSet.UintSet) internal _ownerTokenIDs;
 
     // Link to the contract metadata
     string private _metadataBaseURI;
@@ -119,12 +122,8 @@ contract TellerNFTDictionary is ITellerNFT,ERC721Upgradeable, AccessControlUpgra
         view
         override
         returns (uint256[] memory owned_)
-    {
-        EnumerableSet.UintSet storage set = _ownerTokenIDs[owner];
-        owned_ = new uint256[](set.length());
-        for (uint256 i; i < owned_.length; i++) {
-            owned_[i] = set.at(i);
-        }
+    {  
+        return ITellerNFT( tellerNFTAddress ).getOwnedTokens(owner);
     }
 
     /**
@@ -160,22 +159,14 @@ contract TellerNFTDictionary is ITellerNFT,ERC721Upgradeable, AccessControlUpgra
      * Requirements:
      *  - Caller must be an authorized minter
      */
-    function mint(uint256 tierIndex, address owner)
+   function mint(uint256 tierIndex, address owner)
         external
         override
         onlyMinter
     {
-        // Get the new token ID
-        uint256 tokenId = _tokenCounter.current();
-        _tokenCounter.increment();
-
-        // Mint and set the token to the tier index
-        _safeMint(owner, tokenId);
-        _tokenTier[tokenId] = tierIndex;
-
-        // Set owner
-        _setOwner(owner, tokenId);
+        revert('cannot mint using this contract.');
     }
+    
 
     /**
      * @notice Adds a new Tier to be minted with the given information.
@@ -197,13 +188,7 @@ contract TellerNFTDictionary is ITellerNFT,ERC721Upgradeable, AccessControlUpgra
         _tierCounter.increment();
     }
 
-    function removeMinter(address minter) external onlyMinter {
-        revokeRole(MINTER, minter);
-    }
-
-    function addMinter(address minter) public onlyMinter {
-        _setupRole(MINTER, minter);
-    }
+    
 
     /**
      * @notice Sets the contract level metadata URI hash.
@@ -235,6 +220,15 @@ contract TellerNFTDictionary is ITellerNFT,ERC721Upgradeable, AccessControlUpgra
 
         _metadataBaseURI = "https://gateway.pinata.cloud/ipfs/";
         _contractURIHash = "QmWAfQFFwptzRUCdF2cBFJhcB2gfHJMd7TQt64dZUysk3R";
+    }
+
+    function setTellerNFTAddress(address addr)
+     external
+     onlyAdmin
+     returns (bool)
+    {
+        tellerNFTAddress = addr;
+        return true;
     }
 
     function supportsInterface(bytes4 interfaceId)
@@ -269,29 +263,7 @@ contract TellerNFTDictionary is ITellerNFT,ERC721Upgradeable, AccessControlUpgra
         return _metadataBaseURI;
     }
 
-    /**
-     * @notice Moves token to new owner set and then transfers.
-     */
-    function _transfer(
-        address from,
-        address to,
-        uint256 tokenId
-    ) internal override {
-        _setOwner(to, tokenId);
-        super._transfer(from, to, tokenId);
-    }
-
-    /**
-     * @notice It removes the token from the current owner set and adds to new owner.
-     */
-    function _setOwner(address newOwner, uint256 tokenId) internal {
-        address currentOwner = ownerOf(tokenId);
-        if (currentOwner != address(0)) {
-            _ownerTokenIDs[currentOwner].remove(tokenId);
-        }
-        _ownerTokenIDs[newOwner].add(tokenId);
-    }
-
+    
     function _msgData() internal pure override returns (bytes calldata) {
         return msg.data;
     }

@@ -35,42 +35,6 @@
         "console"
       ]
     },
-    "/home/andy/FULLTIME/teller-nft-dictionary/contracts/ITellerNFT.sol": {
-      "lastModificationDate": 1621779456100,
-      "contentHash": "b1f4b3ab15d3d95f5b989cae1da037c3",
-      "sourceName": "contracts/ITellerNFT.sol",
-      "solcConfig": {
-        "version": "0.8.3",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "ITellerNFT"
-      ]
-    },
     "/home/andy/FULLTIME/teller-nft-dictionary/node_modules/@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol": {
       "lastModificationDate": 1621779382456,
       "contentHash": "75cedcb24edaec014d2071ed59a03ff3",
@@ -175,47 +139,6 @@
       ],
       "artifacts": [
         "IERC165"
-      ]
-    },
-    "/home/andy/FULLTIME/teller-nft-dictionary/contracts/TellerNftDictionary.sol": {
-      "lastModificationDate": 1621779641755,
-      "contentHash": "037f3fb98de2c6f3b4b851961cabfa29",
-      "sourceName": "contracts/TellerNftDictionary.sol",
-      "solcConfig": {
-        "version": "0.8.3",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol",
-        "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol",
-        "@openzeppelin/contracts/utils/Counters.sol",
-        "@openzeppelin/contracts/utils/structs/EnumerableSet.sol",
-        "@openzeppelin/contracts/utils/math/SafeMath.sol",
-        "./ITellerNFT.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "TellerNFTDictionary"
       ]
     },
     "/home/andy/FULLTIME/teller-nft-dictionary/node_modules/@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol": {
@@ -716,6 +639,83 @@
       ],
       "artifacts": [
         "IERC165Upgradeable"
+      ]
+    },
+    "/home/andy/FULLTIME/teller-nft-dictionary/contracts/ITellerNFT.sol": {
+      "lastModificationDate": 1621779456100,
+      "contentHash": "b1f4b3ab15d3d95f5b989cae1da037c3",
+      "sourceName": "contracts/ITellerNFT.sol",
+      "solcConfig": {
+        "version": "0.8.3",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ITellerNFT"
+      ]
+    },
+    "/home/andy/FULLTIME/teller-nft-dictionary/contracts/TellerNftDictionary.sol": {
+      "lastModificationDate": 1621780808666,
+      "contentHash": "ce09de883d21ccaf9f59423889b67ee8",
+      "sourceName": "contracts/TellerNftDictionary.sol",
+      "solcConfig": {
+        "version": "0.8.3",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol",
+        "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol",
+        "@openzeppelin/contracts/utils/Counters.sol",
+        "@openzeppelin/contracts/utils/structs/EnumerableSet.sol",
+        "@openzeppelin/contracts/utils/math/SafeMath.sol",
+        "./ITellerNFT.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "TellerNFTDictionary"
       ]
     }
   }
