@@ -97,7 +97,13 @@ describe("TellerNFTDictionary", async function() {
     let readTier =  await dictionaryContract.getTier('0')
 
     console.log('read tier', readTier )
-   // console.log('dictionaryContract',dictionaryContract) 
+
+    let baseLoanSize = await dictionaryContract.tokenBaseLoanSize('0')
+   
+    expect(baseLoanSize).to.equal("2500");
+   
+   
+    // console.log('dictionaryContract',dictionaryContract) 
 
 
 

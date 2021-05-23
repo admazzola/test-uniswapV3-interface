@@ -267,4 +267,33 @@ contract TellerNFTDictionary is ITellerNFT, ERC721Upgradeable, AccessControlUpgr
     function _msgData() internal pure override returns (bytes calldata) {
         return msg.data;
     }
+
+
+
+
+    /**
+        New methods for the dictionary
+    */
+
+    /**
+     * @notice It returns information about a Tier for a token ID.
+     * @param tokenId ID of the token to get Tier info.
+     */
+    function tokenBaseLoanSize(uint256 tokenId)
+        public
+        view       
+        returns (uint256)
+    {
+
+        uint256 index_ = _tokenTier[tokenId];
+        Tier memory tier_ = _tiers[index_]; 
+         
+        return tier_.baseLoanSize;
+    }
+
+
+
+
+
+
 }
