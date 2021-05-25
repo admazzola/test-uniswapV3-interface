@@ -12,8 +12,7 @@ import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 // Interfaces
-import "./ITellerNFT.sol";
-import "./IStakeableNFT.sol";
+ import "./IStakeableNFT.sol";
 
 /**
  * @notice This contract is used by borrowers to call Dapp functions (using delegate calls).
@@ -27,7 +26,7 @@ contract TellerNFTDictionary is  IStakeableNFT, ERC721Upgradeable, AccessControl
     using EnumerableSet for EnumerableSet.UintSet;
     using SafeMath for uint256;
 
-     struct Tier {
+    struct Tier {
         uint256 baseLoanSize;
         string[] hashes;
         address contributionAsset;
@@ -39,9 +38,7 @@ contract TellerNFTDictionary is  IStakeableNFT, ERC721Upgradeable, AccessControl
 
     bytes32 public constant ADMIN = keccak256("ADMIN");
  
-
-    //The address of the deployed Teller NFT V1 
-    address public tellerNFTAddress; 
+ 
 
     /* State Variables */
 
@@ -147,32 +144,8 @@ contract TellerNFTDictionary is  IStakeableNFT, ERC721Upgradeable, AccessControl
     }
 
      
-
-     
-  /*  function initialize(address[] calldata minters)
-        external
-        override
-        initializer
-    {
-        //__ERC721_init("Teller NFT", "TNFT");
-        __AccessControl_init();
-
-        for (uint256 i; i < minters.length; i++) {
-            _setupRole(MINTER, minters[i]);
-        }
-
-        //_metadataBaseURI = "https://gateway.pinata.cloud/ipfs/";
-        //_contractURIHash = "QmWAfQFFwptzRUCdF2cBFJhcB2gfHJMd7TQt64dZUysk3R";
-    }*/
-
-    function setTellerNFTAddress(address addr)
-     external
-     onlyAdmin
-     returns (bool)
-    {
-        tellerNFTAddress = addr;
-        return true;
-    }
+ 
+   
 
     function supportsInterface(bytes4 interfaceId)
         public
@@ -181,32 +154,11 @@ contract TellerNFTDictionary is  IStakeableNFT, ERC721Upgradeable, AccessControl
         returns (bool)
     {
         return
-            interfaceId == type(ITellerNFT).interfaceId ||
+            interfaceId == type(IStakeableNFT).interfaceId ||
             ERC721Upgradeable.supportsInterface(interfaceId) ||
             AccessControlUpgradeable.supportsInterface(interfaceId);
     }
-
-    /**
-     * @notice It returns the hash to use for the token URI.
-     */
-    function _tokenURIHash(uint256 tokenId)
-        internal
-        view
-        returns (string memory)
-    {
-        string[] storage tierImageHashes = _tiers[_tokenTier[tokenId]].hashes;
-        return tierImageHashes[tokenId.mod(tierImageHashes.length)];
-    }
-
-   
-    
-    function _msgData() internal pure override returns (bytes calldata) {
-        return msg.data;
-    }
-
-    
-
-
+ 
 
 
     /**

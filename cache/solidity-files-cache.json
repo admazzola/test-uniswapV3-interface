@@ -678,8 +678,8 @@
       ]
     },
     "/home/andy/FULLTIME/teller-nft-dictionary/contracts/TellerNftDictionary.sol": {
-      "lastModificationDate": 1621904493162,
-      "contentHash": "dc7ec92833bc7baa8ee30544c17c798e",
+      "lastModificationDate": 1621911776673,
+      "contentHash": "a0b7728e4dfd6f86b0cd564ac07d61e5",
       "sourceName": "contracts/TellerNftDictionary.sol",
       "solcConfig": {
         "version": "0.8.3",
@@ -709,7 +709,6 @@
         "@openzeppelin/contracts/utils/Counters.sol",
         "@openzeppelin/contracts/utils/structs/EnumerableSet.sol",
         "@openzeppelin/contracts/utils/math/SafeMath.sol",
-        "./ITellerNFT.sol",
         "./IStakeableNFT.sol"
       ],
       "versionPragmas": [
