@@ -22,7 +22,7 @@ import "./IStakeableNFT.sol";
  * @author develop@teller.finance
  */
 contract TellerNFTDictionary is  IStakeableNFT, ERC721Upgradeable, AccessControlUpgradeable  {
-    using Counters for Counters.Counter;
+     
     using EnumerableSet for EnumerableSet.UintSet;
     using SafeMath for uint256;
 
@@ -104,10 +104,7 @@ contract TellerNFTDictionary is  IStakeableNFT, ERC721Upgradeable, AccessControl
         returns (string[] memory hashes_)
     {
         hashes_ = _tiers[tierIndex].hashes;
-    }
-
-    
-  
+    } 
 
     /**
      * @notice Adds a new Tier to be minted with the given information.
@@ -115,9 +112,9 @@ contract TellerNFTDictionary is  IStakeableNFT, ERC721Upgradeable, AccessControl
      * @param newTier Information about the new tier to add.
      *
      * Requirements:
-     *  - Caller must have the {MINTER} role
+     *  - Caller must have the {Admin} role
      */
-    function setTier(uint256 index, Tier memory newTier) external   onlyAdmin {
+    function setTier(uint256 index, Tier memory newTier) external onlyAdmin {
         Tier storage tier = _tiers[index];
 
         tier.baseLoanSize = newTier.baseLoanSize;
@@ -127,12 +124,7 @@ contract TellerNFTDictionary is  IStakeableNFT, ERC721Upgradeable, AccessControl
         tier.contributionMultiplier = newTier.contributionMultiplier;
 
          
-    }
-
-     
- 
-   
-
+    } 
     function supportsInterface(bytes4 interfaceId)
         public
         view
@@ -144,8 +136,7 @@ contract TellerNFTDictionary is  IStakeableNFT, ERC721Upgradeable, AccessControl
             ERC721Upgradeable.supportsInterface(interfaceId) ||
             AccessControlUpgradeable.supportsInterface(interfaceId);
     }
- 
-
+  
 
     /**
         New methods for the dictionary
