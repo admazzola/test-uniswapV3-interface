@@ -37,10 +37,10 @@ describe("TellerNFTDictionary", async function() {
 
     let mintersArray = [ signerAccount.address ] 
 
-    await dictionaryContract.initialize(mintersArray, {from:signerAccount.address }) ;  
+    //await dictionaryContract.initialize(mintersArray, {from:signerAccount.address }) ;  
 
 
-    expect(await dictionaryContract.contractURI()).to.equal("QmWAfQFFwptzRUCdF2cBFJhcB2gfHJMd7TQt64dZUysk3R");
+   // expect(await dictionaryContract.contractURI()).to.equal("QmWAfQFFwptzRUCdF2cBFJhcB2gfHJMd7TQt64dZUysk3R");
   });
 
 
@@ -102,14 +102,6 @@ describe("TellerNFTDictionary", async function() {
    
     expect(baseLoanSize).to.equal("2500");
    
-   
-    // console.log('dictionaryContract',dictionaryContract) 
-
-
-
-  /*  expect(await greeter.greet()).to.equal("Hello, world!");
-
-    await greeter.setGreeting("Hola, mundo!");
-    expect(await greeter.greet()).to.equal("Hola, mundo!");*/
+    
   });
 });

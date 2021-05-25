@@ -1,6 +1,6 @@
 # Teller NFT Dictionary 
 
-A smart contract that contains read-only pertaining to the Teller V1 NFTs.
+A smart contract that contains additional read-only data for the Teller V1 NFTs.
 
 
 

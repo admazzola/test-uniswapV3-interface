@@ -13,7 +13,8 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 // Interfaces
 import "./ITellerNFT.sol";
- 
+import "./IStakeableNFT.sol";
+
 /**
  * @notice This contract is used by borrowers to call Dapp functions (using delegate calls).
  * @notice This contract should only be constructed using it's upgradeable Proxy contract.
@@ -21,15 +22,23 @@ import "./ITellerNFT.sol";
  *
  * @author develop@teller.finance
  */
-contract TellerNFTDictionary is ITellerNFT, ERC721Upgradeable, AccessControlUpgradeable  {
+contract TellerNFTDictionary is  IStakeableNFT, ERC721Upgradeable, AccessControlUpgradeable  {
     using Counters for Counters.Counter;
     using EnumerableSet for EnumerableSet.UintSet;
     using SafeMath for uint256;
 
+     struct Tier {
+        uint256 baseLoanSize;
+        string[] hashes;
+        address contributionAsset;
+        uint256 contributionSize;
+        uint8 contributionMultiplier;
+    }
+
     /* Constants */
 
     bytes32 public constant ADMIN = keccak256("ADMIN");
-    bytes32 public constant MINTER = keccak256("MINTER");
+ 
 
     //The address of the deployed Teller NFT V1 
     address public tellerNFTAddress; 
@@ -52,10 +61,10 @@ contract TellerNFTDictionary is ITellerNFT, ERC721Upgradeable, AccessControlUpgr
     //mapping(address => EnumerableSet.UintSet) internal _ownerTokenIDs;
 
     // Link to the contract metadata
-    string private _metadataBaseURI;
+    //string private _metadataBaseURI;
 
     // Hash to the contract metadata located on the {_metadataBaseURI}
-    string private _contractURIHash;
+    //string private _contractURIHash;
 
     /* Modifiers */
 
@@ -64,10 +73,12 @@ contract TellerNFTDictionary is ITellerNFT, ERC721Upgradeable, AccessControlUpgr
         _;
     }
 
-    modifier onlyMinter() {
-        require(hasRole(MINTER, _msgSender()), "TellerNFT: not minter");
-        _;
+    constructor(){        
+      _setupRole(ADMIN, msg.sender );
     }
+
+
+   
 
     /* External Functions */
 
@@ -78,7 +89,7 @@ contract TellerNFTDictionary is ITellerNFT, ERC721Upgradeable, AccessControlUpgr
     function getTier(uint256 index)
         external
         view
-        override
+         
         returns (Tier memory tier_)
     {
         tier_ = _tiers[index];
@@ -91,7 +102,7 @@ contract TellerNFTDictionary is ITellerNFT, ERC721Upgradeable, AccessControlUpgr
     function getTokenTier(uint256 tokenId)
         external
         view
-        override
+         
         returns (uint256 index_, Tier memory tier_)
     {
         index_ = _tokenTier[tokenId];
@@ -106,67 +117,14 @@ contract TellerNFTDictionary is ITellerNFT, ERC721Upgradeable, AccessControlUpgr
     function getTierHashes(uint256 tierIndex)
         external
         view
-        override
+         
         returns (string[] memory hashes_)
     {
         hashes_ = _tiers[tierIndex].hashes;
     }
 
-    /**
-     * @notice It returns an array of token IDs owned by an address.
-     * @dev It uses a EnumerableSet to store values and loops over each element to add to the array.
-     * @dev Can be costly if calling within a contract for address with many tokens.
-     */
-    function getOwnedTokens(address owner)
-        external
-        view
-        override
-        returns (uint256[] memory owned_)
-    {  
-        return ITellerNFT( tellerNFTAddress ).getOwnedTokens(owner);
-    }
-
-    /**
-     * @notice The contract metadata URI.
-     */
-    function contractURI() external view override returns (string memory) {
-        return _contractURIHash;
-    }
-
-    /**
-     * @notice The token URI is based on the token ID.
-     */
-    function tokenURI(uint256 tokenId)
-        public
-        view
-        override
-        returns (string memory)
-    {
-        require(_exists(tokenId), "TellerNFT: URI query for nonexistent token");
-
-        string memory baseURI = _baseURI();
-        return
-            bytes(baseURI).length > 0
-                ? string(abi.encodePacked(baseURI, _tokenURIHash(tokenId)))
-                : "";
-    }
-
-    /**
-     * @notice It mints a new token for a Tier index.
-     * @param tierIndex Tier to mint token on.
-     * @param owner The owner of the new token.
-     *
-     * Requirements:
-     *  - Caller must be an authorized minter
-     */
-   function mint(uint256 tierIndex, address owner)
-        external
-        override
-        onlyMinter
-    {
-        revert('cannot mint using this contract.');
-    }
     
+  
 
     /**
      * @notice Adds a new Tier to be minted with the given information.
@@ -176,7 +134,7 @@ contract TellerNFTDictionary is ITellerNFT, ERC721Upgradeable, AccessControlUpgr
      * Requirements:
      *  - Caller must have the {MINTER} role
      */
-    function addTier(Tier memory newTier) external override onlyMinter {
+    function addTier(Tier memory newTier) external   onlyAdmin {
         Tier storage tier = _tiers[_tierCounter.current()];
 
         tier.baseLoanSize = newTier.baseLoanSize;
@@ -188,39 +146,24 @@ contract TellerNFTDictionary is ITellerNFT, ERC721Upgradeable, AccessControlUpgr
         _tierCounter.increment();
     }
 
-    
+     
 
-    /**
-     * @notice Sets the contract level metadata URI hash.
-     * @param contractURIHash The hash to the initial contract level metadata.
-     */
-    function setContractURIHash(string memory contractURIHash)
-        external
-        override
-        onlyAdmin
-    {
-        _contractURIHash = contractURIHash;
-    }
-
-    /**
-     * @notice Initializes the TellerNFT.
-     * @param minters The addresses that should allowed to mint tokens.
-     */
-    function initialize(address[] calldata minters)
+     
+  /*  function initialize(address[] calldata minters)
         external
         override
         initializer
     {
-        __ERC721_init("Teller NFT", "TNFT");
+        //__ERC721_init("Teller NFT", "TNFT");
         __AccessControl_init();
 
         for (uint256 i; i < minters.length; i++) {
             _setupRole(MINTER, minters[i]);
         }
 
-        _metadataBaseURI = "https://gateway.pinata.cloud/ipfs/";
-        _contractURIHash = "QmWAfQFFwptzRUCdF2cBFJhcB2gfHJMd7TQt64dZUysk3R";
-    }
+        //_metadataBaseURI = "https://gateway.pinata.cloud/ipfs/";
+        //_contractURIHash = "QmWAfQFFwptzRUCdF2cBFJhcB2gfHJMd7TQt64dZUysk3R";
+    }*/
 
     function setTellerNFTAddress(address addr)
      external
@@ -255,18 +198,13 @@ contract TellerNFTDictionary is ITellerNFT, ERC721Upgradeable, AccessControlUpgr
         return tierImageHashes[tokenId.mod(tierImageHashes.length)];
     }
 
-    /**
-     * @notice The base URI path where the token media is hosted.
-     * @dev Base URI for computing {tokenURI}.
-     */
-    function _baseURI() internal view override returns (string memory) {
-        return _metadataBaseURI;
-    }
-
+   
     
     function _msgData() internal pure override returns (bytes calldata) {
         return msg.data;
     }
+
+    
 
 
 
@@ -281,19 +219,65 @@ contract TellerNFTDictionary is ITellerNFT, ERC721Upgradeable, AccessControlUpgr
      */
     function tokenBaseLoanSize(uint256 tokenId)
         public
-        view       
+        view    
+        override   
         returns (uint256)
-    {
-
-        uint256 index_ = _tokenTier[tokenId];
-        Tier memory tier_ = _tiers[index_]; 
-         
-        return tier_.baseLoanSize;
+    {  
+        return _tiers[_tokenTier[tokenId]].baseLoanSize;
     }
 
+    /**
+     * @notice It returns information about a Tier for a token ID.
+     * @param tokenId ID of the token to get Tier info.
+     */
+    function tokenURIHash(uint256 tokenId)
+        public
+        view
+        override
+        returns (string memory)
+    {
+        string[] storage tierImageHashes = _tiers[_tokenTier[tokenId]].hashes;
+        return tierImageHashes[tokenId.mod(tierImageHashes.length)];
+    }
 
+    /**
+     * @notice It returns information about a Tier for a token ID.
+     * @param tokenId ID of the token to get Tier info.
+     */
+    function tokenContributionAsset(uint256 tokenId)
+        public
+        view  
+        override     
+        returns (address)
+    {  
+        return _tiers[_tokenTier[tokenId]].contributionAsset;
+    }
 
+    /**
+     * @notice It returns information about a Tier for a token ID.
+     * @param tokenId ID of the token to get Tier info.
+     */
+    function tokenContributionSize(uint256 tokenId)
+        public
+        view   
+        override    
+        returns (uint256)
+    {  
+        return _tiers[_tokenTier[tokenId]].contributionSize;
+    }
 
+    /**
+     * @notice It returns information about a Tier for a token ID.
+     * @param tokenId ID of the token to get Tier info.
+     */
+    function tokenContributionMultiplier(uint256 tokenId)
+        public
+        view    
+        override   
+        returns (uint256)
+    {  
+        return _tiers[_tokenTier[tokenId]].contributionMultiplier;
+    }
 
 
 }

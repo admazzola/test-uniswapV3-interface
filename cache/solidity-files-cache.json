@@ -678,8 +678,8 @@
       ]
     },
     "/home/andy/FULLTIME/teller-nft-dictionary/contracts/TellerNftDictionary.sol": {
-      "lastModificationDate": 1621799193006,
-      "contentHash": "8aae5b6784a7176d19fa814aac613eef",
+      "lastModificationDate": 1621904493162,
+      "contentHash": "dc7ec92833bc7baa8ee30544c17c798e",
       "sourceName": "contracts/TellerNftDictionary.sol",
       "solcConfig": {
         "version": "0.8.3",
@@ -709,13 +709,48 @@
         "@openzeppelin/contracts/utils/Counters.sol",
         "@openzeppelin/contracts/utils/structs/EnumerableSet.sol",
         "@openzeppelin/contracts/utils/math/SafeMath.sol",
-        "./ITellerNFT.sol"
+        "./ITellerNFT.sol",
+        "./IStakeableNFT.sol"
       ],
       "versionPragmas": [
         "^0.8.0"
       ],
       "artifacts": [
         "TellerNFTDictionary"
+      ]
+    },
+    "/home/andy/FULLTIME/teller-nft-dictionary/contracts/IStakeableNFT.sol": {
+      "lastModificationDate": 1621903985593,
+      "contentHash": "b3af4054ebd73bbc0d69c4c64a439a0c",
+      "sourceName": "contracts/IStakeableNFT.sol",
+      "solcConfig": {
+        "version": "0.8.3",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IStakeableNFT"
       ]
     }
   }
