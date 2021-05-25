@@ -12,7 +12,7 @@ import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 // Interfaces
- import "./IStakeableNFT.sol";
+import "./IStakeableNFT.sol";
 
 /**
  * @notice This contract is used by borrowers to call Dapp functions (using delegate calls).
@@ -41,27 +41,14 @@ contract TellerNFTDictionary is  IStakeableNFT, ERC721Upgradeable, AccessControl
  
 
     /* State Variables */
-
-    // It holds the total number of tiers.
-    Counters.Counter internal _tierCounter;
-
-    // It holds the total number of tokens minted.
-    Counters.Counter internal _tokenCounter;
-
+ 
     // It holds the information about a tier.
     mapping(uint256 => Tier) internal _tiers;
 
     // It holds which tier a token ID is in.
     mapping(uint256 => uint256) internal _tokenTier;
 
-    // It holds a set of token IDs for an owner address.
-    //mapping(address => EnumerableSet.UintSet) internal _ownerTokenIDs;
-
-    // Link to the contract metadata
-    //string private _metadataBaseURI;
-
-    // Hash to the contract metadata located on the {_metadataBaseURI}
-    //string private _contractURIHash;
+   
 
     /* Modifiers */
 
@@ -71,9 +58,8 @@ contract TellerNFTDictionary is  IStakeableNFT, ERC721Upgradeable, AccessControl
     }
 
     constructor(){        
-      _setupRole(ADMIN, msg.sender );
+      _setupRole(ADMIN, msg.sender);
     }
-
 
    
 
@@ -131,8 +117,8 @@ contract TellerNFTDictionary is  IStakeableNFT, ERC721Upgradeable, AccessControl
      * Requirements:
      *  - Caller must have the {MINTER} role
      */
-    function addTier(Tier memory newTier) external   onlyAdmin {
-        Tier storage tier = _tiers[_tierCounter.current()];
+    function setTier(uint256 index, Tier memory newTier) external   onlyAdmin {
+        Tier storage tier = _tiers[index];
 
         tier.baseLoanSize = newTier.baseLoanSize;
         tier.hashes = newTier.hashes;
@@ -140,7 +126,7 @@ contract TellerNFTDictionary is  IStakeableNFT, ERC721Upgradeable, AccessControl
         tier.contributionSize = newTier.contributionSize;
         tier.contributionMultiplier = newTier.contributionMultiplier;
 
-        _tierCounter.increment();
+         
     }
 
      

@@ -244,9 +244,9 @@ describe("TellerNFTDictionary", async function() {
     }
 
     
-    await dictionaryContract.addTier(Tier0, {from:signerAccount.address }) ;  
-    await dictionaryContract.addTier(Tier1, {from:signerAccount.address }) ;  
-    await dictionaryContract.addTier(Tier2, {from:signerAccount.address }) ;  
+    await dictionaryContract.setTier(0, Tier0, {from:signerAccount.address }) ;  
+    await dictionaryContract.setTier(1, Tier1, {from:signerAccount.address }) ;  
+    await dictionaryContract.setTier(2, Tier2, {from:signerAccount.address }) ;  
  
     let baseLoanSize = await dictionaryContract.tokenBaseLoanSize('0')
     expect(baseLoanSize).to.equal("2500000000000000000000");
