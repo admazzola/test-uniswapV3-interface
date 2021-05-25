@@ -26,11 +26,7 @@ describe("TellerNFTDictionary", async function() {
 
 
   it("Should add tier data", async function() {
-
-    /*Tier 0 
  
-    */
-
     let Tier0 = {
       baseLoanSize: '2500000000000000000000',
       hashes: ['QmeL8KzMzHXgMUXWNEjTk5aWbWvHWqjmbpE8AjE47p366e',
