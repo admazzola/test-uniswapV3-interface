@@ -125,6 +125,8 @@ contract TellerNFTDictionary is  IStakeableNFT, ERC721Upgradeable, AccessControl
 
          
     } 
+
+    
     function supportsInterface(bytes4 interfaceId)
         public
         view
@@ -141,6 +143,19 @@ contract TellerNFTDictionary is  IStakeableNFT, ERC721Upgradeable, AccessControl
     /**
         New methods for the dictionary
     */
+
+
+     /**
+     * @notice It returns information about the type of NFT.     * 
+     */
+    function stakeableTokenType()
+        public
+        view    
+        override   
+        returns (bytes32)
+    {  
+        return keccak256('TellerNFTV1');
+    }
 
     /**
      * @notice It returns information about a Tier for a token ID.

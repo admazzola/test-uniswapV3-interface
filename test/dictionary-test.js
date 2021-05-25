@@ -1,20 +1,7 @@
 const { expect } = require("chai");
 
-/*
-describe("Greeter", function() {
-  it("Should return the new greeting once it's changed", async function() {
-    const Greeter = await ethers.getContractFactory("Greeter");
-    const greeter = await Greeter.deploy("Hello, world!");
-    
-    await greeter.deployed();
-    expect(await greeter.greet()).to.equal("Hello, world!");
 
-    await greeter.setGreeting("Hola, mundo!");
-    expect(await greeter.greet()).to.equal("Hola, mundo!");
-  });
-});
 
-*/
 
 var dictionaryContract;
 var signerAccount;
@@ -27,20 +14,14 @@ describe("TellerNFTDictionary", async function() {
     const Dictionary = await ethers.getContractFactory("TellerNFTDictionary");
 
     signerAccount = Dictionary.signer; 
-    //const accounts = await ethers.getSigners();
-
+     
     dictionaryContract = await Dictionary.deploy(  );
     
     await dictionaryContract.deployed();  
 
-
-
-    let mintersArray = [ signerAccount.address ] 
-
-    //await dictionaryContract.initialize(mintersArray, {from:signerAccount.address }) ;  
-
-
-   // expect(await dictionaryContract.contractURI()).to.equal("QmWAfQFFwptzRUCdF2cBFJhcB2gfHJMd7TQt64dZUysk3R");
+    let type = await dictionaryContract.stakeableTokenType()
+    expect(type).to.equal("0x2213d707f04cdfd263a540394e2a26bbf3a63d6ad89a37f534d2ee35bdfe0d38");
+   
   });
 
 
