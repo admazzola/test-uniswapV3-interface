@@ -3,8 +3,7 @@
 import { ethers, waffle } from 'hardhat'
 import { expect } from './shared/expect'
 
-
-
+ 
 
 import {
   abi as FACTORY_ABI,
@@ -20,9 +19,16 @@ describe("UniswapTesting", async function() {
   it("Should deploy Uniswap ", async function() {
 
     // deploy the uniV3 bytecode
+    const factory = await ethers.getContractFactory(FACTORY_ABI, FACTORY_BYTECODE); 
 
+    let deployArgs = {} 
 
-    await expect(1).to.equal(1)
+    // If your contract requires constructor args, you can specify them here
+    const contract = await factory.deploy(deployArgs);
+
+    console.log('Deployed Uniswap Contract to ',contract.address);
+
+    await expect(contract).to.be.ok 
  
   });
 
