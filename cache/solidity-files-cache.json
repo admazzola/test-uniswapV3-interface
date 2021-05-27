@@ -751,6 +751,40 @@
       "artifacts": [
         "IStakeableNFT"
       ]
+    },
+    "/home/andy/FULLTIME/test-uniswapV3-interface/contracts/IStakeableNFT.sol": {
+      "lastModificationDate": 1622083575009,
+      "contentHash": "f7b98a65cfc803650012b69c19ed25af",
+      "sourceName": "contracts/IStakeableNFT.sol",
+      "solcConfig": {
+        "version": "0.8.3",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IStakeableNFT"
+      ]
     }
   }
 }
